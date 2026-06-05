@@ -106,6 +106,24 @@ app.on('activate', () => {
 })
 
 // New window example arg: new windows url
+import { scanAppFiles, deleteFileOrFolder, getStorageInfo, findLargeFiles } from './scanner'
+
+ipcMain.handle('scan-app', async (_, appPath, includeSystem) => {
+  return await scanAppFiles(appPath, includeSystem);
+});
+
+ipcMain.handle('delete-path', async (_, targetPath) => {
+  return await deleteFileOrFolder(targetPath);
+});
+
+ipcMain.handle('get-storage', async () => {
+  return await getStorageInfo();
+});
+
+ipcMain.handle('find-large-files', async () => {
+  return await findLargeFiles();
+});
+
 ipcMain.handle('open-win', (_, arg) => {
   const childWindow = new BrowserWindow({
     webPreferences: {
